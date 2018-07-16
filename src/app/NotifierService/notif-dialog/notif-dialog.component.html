@@ -1,0 +1,26 @@
+<!--Style 1 (default)-->
+<span class="all text">
+  <span class="top">
+    <span mat-dialog-title *ngIf="title">{{title}}</span>
+    <span mat-dialog-content>
+      <div *ngFor="let message of messages">{{message}}</div>
+    </span>
+  </span>
+  <span class="bottom" (click)="close()">
+    <span class="action-text">
+      <span *ngIf="action">{{action}}</span>
+      <span *ngIf="!action">Dismiss</span>
+    </span>
+  </span>
+</span>
+  <!--
+  <span mat-dialog-actions>
+    <button mat-stroked-button class="action-button" (click)="close()">{{action}}</button>
+  </span>
+  -->
+
+<!--Style 2-->
+<span class="all text">
+  <span></span>
+</span>
+

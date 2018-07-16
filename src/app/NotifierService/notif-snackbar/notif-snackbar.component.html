@@ -1,0 +1,72 @@
+<!--action x version (no notifType)-->
+<span class="snackbar-action-notif" *ngIf="!notifType && (style === 1 || !style)">
+  <span class="column-1">
+    <div class="title-text" *ngIf="title">{{title}}</div>
+    <div class="messages-text" *ngFor="let message of messages">{{message}}</div>
+  </span>
+  <span class="column-3">
+    <span class="close-button" (click)="close()">&times;</span>
+  </span>
+</span>
+
+<!--action x version (notifType)-->
+<span class="snackbar-action-notif" *ngIf="notifType && (style === 1 || !style)">
+  <span class="column-0" *ngIf="notifType === 'success'">%%%</span>
+  <span class="column-0" *ngIf="notifType === 'warn'">$$$</span>
+  <span class="column-0" *ngIf="notifType === 'error'">
+    <img src="../assets/black-x.png" alt="Error" height=50 width=50/>
+  </span>
+  <span class="column-1">
+    <div class="title-text" *ngIf="title">{{title}}</div>
+    <div class="messages-text" *ngFor="let message of messages">{{message}}</div>
+  </span>
+  <span class="column-3">
+    <span class="close-button" (click)="close()">&times;</span>
+  </span>
+</span>
+
+<!--action button version (no notifType)-->
+<span class="snackbar-action-notif" *ngIf="!notifType && style === 2">
+  <span class="column-1">
+    <div class="title-text" *ngIf="title">{{title}}</div>
+    <div class="messages-text" *ngFor="let message of messages">{{message}}</div>
+  </span>
+  <span class="column-2">
+    <button mat-stroked-button class="action-button" (click)="close()">{{action}}</button>
+  </span>
+</span>
+
+<!--action button version (notifType)-->
+<span class="snackbar-action-notif" *ngIf="notifType && style === 2">
+  <span class="column-0" *ngIf="notifType === 'success'">%%%</span>
+  <span class="column-0" *ngIf="notifType === 'warn'">$$$</span>
+  <span class="column-0" *ngIf="notifType === 'error'">
+    <img src="../assets/black-x.png" alt="Error" height=50 width=50/>
+  </span>
+  <span class="column-1">
+    <div class="title-text" *ngIf="title">{{title}}</div>
+    <div class="messages-text" *ngFor="let message of messages">{{message}}</div>
+  </span>
+  <aside class="column-2">
+    <button mat-stroked-button class="action-button" (click)="close()">{{action}}</button>
+  </aside>
+</span>
+
+<!--duration version (no notifType)-->
+<span class="snackbar-duration-notif" *ngIf="!notifType && style === 3">
+  <div class="title-text" *ngIf="title">{{title}}</div>
+  <div class="messages-text" *ngFor="let message of messages">{{message}}</div>
+</span>
+
+<!--duration version (notifType)-->
+<span class="snackbar-duration-notif" *ngIf="notifType && style === 3">
+  <span class="column-0" *ngIf="notifType === 'success'">%%%</span>
+  <span class="column-0" *ngIf="notifType === 'warn'">$$$</span>
+  <span class="column-0" *ngIf="notifType === 'error'">
+    <img src="../assets/black-x.png" alt="Error" height=50 width=50/>
+  </span>
+  <span class="column-1">
+    <div class="title-text" *ngIf="title">{{title}}</div>
+    <div class="messages-text" *ngFor="let message of messages">{{message}}</div>
+  </span>
+</span>

@@ -1,0 +1,65 @@
+.snackbar-action-notif{
+  display: flex;
+  padding: 0;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.snackbar-duration-notif{
+  display: flex;
+  padding: 0;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.column-0{
+  width: 65px;
+  margin-top: 8px;
+  order: 1;
+  vertical-align: center;
+}
+
+.column-1{
+  flex: 1;
+  order: 2;
+}
+
+.column-2{
+  vertical-align: bottom;
+  width: 22%;
+  order: 3;
+}
+
+.column-3{
+  width: 5%;
+  order: 3;
+}
+
+.title-text{
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+}
+
+.messages-text{
+  margin: 3px 5px;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.close-button {
+  float: right;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-button:hover {
+  color: #888;
+}
+
+.action-button{
+  vertical-align: central;
+  ;
+  padding: 0;
+}

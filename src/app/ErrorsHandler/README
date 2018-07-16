@@ -1,0 +1,10 @@
+_AUTHOR_
+Name: Daniel Yu
+Occupation: Undergraduate student at Lehigh University
+GitHub: https://github.com/Danyu999
+
+___INSTALLATION___
+1) Install dependencies
+  a. NotifierService
+2) Import the ErrorsHandler into components/services you want to catch errors in
+3) Stop all those pesky errors from confusing the user!

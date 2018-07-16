@@ -1,0 +1,17 @@
+_AUTHOR_
+Name: Daniel Yu
+Occupation: Undergraduate student at Lehigh University
+GitHub: https://github.com/Danyu999
+
+___INSTALLATION___
+1) npm install --save @angular/material @angular/cdk @angular/animations
+2) update your @NgModule to include necessary imports/declarations/entry components
+3) add "@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';" or an angular material theme of your choice to styles.css
+4) add "@import 'app/NotifierService/notifier-service.css';" to styles.css
+5) import the NotifierService to any components/services that will use it
+6) use your shiny new NotifierService methods!
+
+___NOTIFIER SERVICE DOCUMENTATION___
+openDialog(): Opens a dialog
+openActionSnackBar(message: string, action: string, color?: string): Opens a snack bar that can be dismissed by pressing the action button
+openDurationSnackBar(message: string, duration: number, color?: string): Opens a snack bar that dismisses itself after a given duration

@@ -1,0 +1,35 @@
+.all{
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.top{
+  display: block;
+  padding: 15px 30px;
+}
+
+.bottom{
+  display: block;
+  padding: 15px 20px;
+  margin: 0;
+  background: red;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  text-align: center;
+}
+
+.bottom:hover{
+  background: #CC0000;
+  color: #888;
+}
+
+.action-button{
+  margin: 5% 0;
+  float: bottom;
+}
+
+.text{
+  margin-bottom: 4px;
+  text-align: center;
+}

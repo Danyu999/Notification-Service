@@ -1,0 +1,38 @@
+.title-card{
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+.html-card{
+  background: #333;
+  color: white;
+}
+
+.mat-raised-button{
+  margin: 1.5%;
+  background-color: darkmagenta;
+  color: white;
+}
+
+.buttons{
+  background-color: #555;
+  color: white;
+}
+
+.basic-container{
+  padding: 30px;
+  background-color: #999;
+}
+
+.footer {
+  text-align: center;
+  background-color: white;
+}
+
+.input-box {
+  margin: 10px;
+  padding: 10px;
+  display: inline-block;
+  border: black solid 1px;
+}

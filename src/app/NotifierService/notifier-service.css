@@ -1,0 +1,61 @@
+/*
+Needs to be imported to styles.css
+@import 'app/NotifierService/notifier-service.css';
+*/
+
+.notifier-service-snack-green-background{
+  background-color: green;
+  color: white;
+  text-align: center;
+}
+
+.notifier-service-snack-green-background button {
+  color: white;
+  font-weight: bold;
+}
+
+.notifier-service-snack-orange-background{
+  background-color: darkorange;
+  color: white;
+  text-align: center;
+}
+
+.notifier-service-snack-orange-background button {
+  color: white;
+  font-weight: bold;
+}
+
+.notifier-service-snack-red-background{
+  background-color: red;
+  color: white;
+}
+
+.notifier-service-snack-red-background button {
+  color: white;
+  font-weight: bold;
+}
+
+.notifier-service-snack-blue-background{
+  background-color: mediumblue;
+  color: white;
+}
+
+.notifier-service-snack-blue-background button {
+  color: white;
+  font-weight: bold;
+}
+
+.notifier-service-snack-purple-background{
+  background-color: purple;
+  color: white;
+}
+
+.notifier-service-snack-purple-background button {
+  color: white;
+  font-weight: bold;
+}
+
+.notifier-service-dialog mat-dialog-container{
+  padding: 0;
+  border: 0;
+}
