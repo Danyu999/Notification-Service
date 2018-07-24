@@ -3,6 +3,7 @@ import { MatDialogConfig, MatDialog, MatSnackBarConfig, MatSnackBar } from '@ang
 import {NotifSnackbarComponent} from './notif-snackbar/notif-snackbar.component';
 import {NotifDialogComponent} from './notif-dialog/notif-dialog.component';
 import {Observable} from 'rxjs';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 @Injectable({
   providedIn: 'root'
@@ -13,77 +14,6 @@ export class NotifierService {
   private dialogConfig = new MatDialogConfig();
 
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
-  /* Example data json object
-
-  DEFAULT
-  -Error message to console, no notification
-  -default snackbar: action x button, color: gray, position: center bottom
-  -default dialog:
-
- {
-  error: "error stack",
-  code: "response code",
-  title: 'title of client side message',
-  messages: ["client side message","each element is a new line"],
-  debug: "developer side message",
-  format:{
-    sendConsole: true,
-    listenToObservable: false,
-    dynamicHtml: false,
-    openSnackbar: false,
-    openDialog: false,
-    sendEmail: false
-  },
-  options:{
-    disableConsoleError: false,
-    notifType: 'error/success/warn/generic',  //pre-set configs default = generic
-    observable:{
-      observable: new Observable,
-      response: ['array of anything'],
-      errorTitle: 'title of message to show client if an error occurs',
-      errorMessage: 'message to show client if an error occurs',
-      successTitle: 'title of ""',
-      successMessage: '""',
-      hideSuccess: false,
-      hideError: false,
-      showErrorDialog: false, //default: show error snackbar
-      showSuccessDialog: false //default: show success snackbar
-    }
-    html:{
-      errorMessage: 'blah',
-      successMessage: 'blash',
-
-    }
-    snackbar:{
-      preset: 'error, warn, success',
-      style: 1,
-      disableAction: false
-      action: 'Close'  //can make action do other things (undo, navigate, etc)
-      duration: 4000
-      color: ""  //can add more colors
-      horizontalPos: "center"
-      verticalPos: "top"
-    }
-    dialog: {
-      style: 1,
-      color: 'red'
-      action: 'Close',
-      disableClose: false,
-      autoFocus: true,
-      hasBackdrop: true,
-      position: {
-        bottom: null,
-        top: null,
-        right: null,
-        left: null
-      }
-     dynamicHtml: {
-
-     }
-    }
-  }
- }
-  */
 
   notify(data: any){
     if(data.format) {
@@ -91,9 +21,9 @@ export class NotifierService {
         //send console message
         this.consoleLog(data.error, data.code, data.debug, data.options.disableConsoleError);
       }
-      if (data.format.listenToObservable) {
+      if (data.format.notifObservable) {
         //listen to the observable object
-        this.runObservable(data);
+        this.runNotifObservable(data);
       }
       if (data.format.dynamicHtml) {
         //run dynamic html
@@ -119,6 +49,10 @@ export class NotifierService {
     }
   }
 
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   consoleLog(error: string, code: string, debug: string, disableConsoleError: boolean) {
     if (disableConsoleError) { // (default)
       if(error) console.log('Error Stack: ' + error);
@@ -136,18 +70,47 @@ export class NotifierService {
     //handle error given. Always logs; decide whether to send notif to client or not
   }
 
-  runObservable(data: any){
-    if(data.options.observable){
-      let notification: string;
+  listenToObservable(data: any, observable: Observable<any>){
+    data.response = Array<any>();
+    const listener = observable.subscribe({
+      next(response){
+        data.response.push(response);
+        console.log('response: ' + response);
+      },
+      error(err){
+        console.error('NotifierService: ' + err);
+        data.state = 'error';
+      },
+      complete(){
+        console.log('NotifierService: Observable successful ');
+        data.state = 'success';
+      }
+    });
+  }
+
+  async runNotifObservable(data: any){
+    if(data.options && data.options.notifObservable){
+      let observable: Observable<any>;
       console.log('NotifierService: Attempting to listen to observable...');
-      if (data.options.observable.observable instanceof Observable) {
-        notification = this.listenToObservable(data);
-        if (notification === 'error') {
-          if (!data.options.observable.showErrorDialog) {
+      if (data.options.notifObservable.observable instanceof Observable) {
+        observable = data.options.notifObservable.observable;
+      }
+      else if(data.options.notifObservable.observable instanceof Promise){
+        observable = fromPromise(data.options.notifObservable.observable);
+      }
+      else{
+        console.error("NotifierService: Error, no observable for notifObservable found.");
+      }
+      if(observable instanceof Observable){
+        this.listenToObservable(data.options.notifObservable, observable);
+        await this.sleep(2000);
+        console.log("notif: " + data.options.notifObservable.state);
+        if (data.options.notifObservable.state === 'error' && !data.options.notifObservable.hideError) {
+          if (!data.options.notifObservable.showErrorDialog) {
             this.setSnackBarColor('error');
             this.setSnackBarDuration();
-            if (data.options.observable.errorMessage) {
-              this.setSnackBarData('', data.options.observable.errorMessage,
+            if (data.options.notifObservable.errorMessage) {
+              this.setSnackBarData('', data.options.notifObservable.errorMessage,
                 1, '', 'error');
             }
             else {
@@ -160,12 +123,12 @@ export class NotifierService {
             //openErrorDialog();
           }
         }
-        else if (notification === 'success') {
-          if (!data.options.observable.showSuccessDialog) {
+        else if (data.options.notifObservable.state === 'success' && !data.options.notifObservable.hideSuccess) {
+          if (!data.options.notifObservable.showSuccessDialog) {
             this.setSnackBarColor('success');
             this.setSnackBarDuration();
-            if (data.options.observable.successMessage) {
-              this.setSnackBarData('', data.options.observable.successMessage,
+            if (data.options.notifObservable.successMessage) {
+              this.setSnackBarData('', data.options.notifObservable.successMessage,
                 1, '', 'success');
             }
             else {
@@ -179,40 +142,40 @@ export class NotifierService {
           }
         }
       }
-      else {
-        console.error("NotifierService: Error, no observable found.");
+    }
+    else{
+      console.error('NotifierService: No notifObservable options to read from!');
+    }
+  }
+
+  async runHtml(data: any){
+    if(data.options && data.options.dynamicHtml){
+      let observable: Observable<any>;
+      console.log('NotifierService: Attempting to listen to observable...');
+      if (data.options.dynamicHtml.observable instanceof Observable) {
+        observable = data.options.dynamicHtml.observable;
+      }
+      else if(data.options.dynamicHtml.observable instanceof Promise){
+        observable = fromPromise(data.options.dynamicHtml.observable);
+      }
+      else{
+        console.error("NotifierService: Error, no observable for dynamicHtml found.");
+      }
+      if (observable instanceof Observable) {
+        data.options.dynamicHtml.output = data.options.dynamicHtml.loadingMessage;
+        this.listenToObservable(data.options.dynamicHtml, observable);
+        await this.sleep(2000);
+        if (data.options.dynamicHtml.state === 'error') {
+          data.options.dynamicHtml.output = data.options.dynamicHtml.errorMessage;
+        }
+        else if (data.options.dynamicHtml.state === 'success') {
+          data.options.dynamicHtml.output = data.options.dynamicHtml.successMessage;
+        }
       }
     }
     else{
-      console.error('NotifierService: No observable options to read from!');
+      console.error('NotifierService: No dynamicHtml options to read from!');
     }
-  }
-
-  listenToObservable(data: any): string{
-    data.options.observable.response = Array<any>();
-    let returnMsg = '';
-    const listener = data.options.observable.observable.subscribe({
-      next(response){
-        data.options.observable.response.push(response);
-      },
-      error(err){
-        console.error('NotifierService: ' + err);
-        if(!data.options.observable.hideError) {
-          returnMsg = 'error';
-        }
-      },
-      complete(){
-        console.log('NotifierService: Observable successful')
-        if(!data.options.observable.hideSuccess){
-          returnMsg = 'success';
-        }
-      }
-    });
-    return returnMsg;
-  }
-
-  runHtml(data: any){
-
   }
 
   openSnackBar(){
@@ -292,7 +255,7 @@ export class NotifierService {
       this.snackConfig.duration = duration;
     }
     else{
-      this.snackConfig.duration = 10000;
+      this.snackConfig.duration = 8000;
     }
   }
 
@@ -329,7 +292,7 @@ export class NotifierService {
 
   configDialog(data: any) {
     //panel config (strip padding/margins)
-    this.dialogConfig.panelClass = ['notifier-service-dialog']; //should be general
+    //this.dialogConfig.panelClass = ['notifier-service-dialog']; //should be general
 
     if(data.options && data.options.dialog) {
       //title, messages, and action option

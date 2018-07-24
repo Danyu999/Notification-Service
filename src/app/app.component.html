@@ -4,9 +4,13 @@
   </mat-card-title>
 </mat-card>
 
-<mat-card class="html-card">
-  <div>{{dynamic}}</div>
+<mat-card class="html-card" id="dcontent">
+  <div id="testt">{{dataHtml.options.dynamicHtml.output}}</div>
 </mat-card>
+
+<script type="text/javascript">
+   dcontent.innerHTML= "bye";
+</script>
 
 <mat-card class="buttons">
   <button mat-raised-button (click)="notifierService.openOldDialog(dialogTitle, dialogMsgs)">Dialog</button>
@@ -17,8 +21,14 @@
   <button mat-raised-button (click)="notifierService.notify(dataDialog)">
     NotifyDialog
   </button>
-  <button mat-raised-button (click)="notifierService.notify(dataObservable)">
-    NotifyObservable
+  <button mat-raised-button (click)="startNotifOb()">
+    NotifyNotifObservable
+  </button>
+  <button mat-raised-button (click)="notifierService.notify(dataHtml)">
+    NotifyDynamicHtml
+  </button>
+  <button mat-raised-button (click)="printTest()">
+    PrintTest
   </button>
   <button mat-raised-button (click)="notifierService.openDurationSnackBar(messageSnack, snackDuration, 'green')">
     GreenDurationSnack

@@ -3,6 +3,8 @@ import {NotifierService} from './NotifierService/notifier.service';
 import {ErrorsHandler} from './ErrorsHandler/errors-handler';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Observable, TimeoutError} from 'rxjs';
+import {async} from '@angular/core/testing';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +34,6 @@ export class AppComponent implements OnInit {
       notifType: 'error',
       snackbar: {
         //style: 3,
-        //disableAction: false,
         //action: 'Stab!',
         //color: 'orange',
         //verticalPos: 'top',
@@ -70,13 +71,15 @@ export class AppComponent implements OnInit {
     }
   };
 
-  dataObservable = {
+  /*
+  dataNotifObservable = {
     format: {
-      listenToObservable: true
+      notifObservable: true
     },
     options: {
-      observable:{
-        observable: new Observable((this.blah)),
+      notifObservable:{
+        observable: this.promiseBlah(),
+
         //response: ['array of anything'],
         //errorTitle: 'title of message to show client if an error occurs',
         errorMessage: ['Oh no! Better get that error checked out!'],
@@ -89,32 +92,93 @@ export class AppComponent implements OnInit {
       }
     }
   };
+  */
 
   dataHtml = {
     format: {
-      //listenToObservable: true,
       dynamicHtml: true
     },
     options: {
-      html:{
-        output: '',
+      dynamicHtml:{
+        output: 'buffer',
+        observable: this.blahblah(),
+        //state: '',
+        //response: 'data returned from subscribing to the observable'
+        loadingMessage: 'loading...',
         errorMessage: 'Something went wrong!',
         successMessage: 'Action successfully completed!',
-
       }
     }
   };
 
-  dynamic = this.dataHtml.options.html.output;
-
   constructor(public notifierService: NotifierService, public errorsHandler: ErrorsHandler){}
 
-  blah(observer){
-    observer.next(1);
-    observer.next(2);
-    observer.error(3);
-    observer.complete();
-    return {unsubscribe() {}};
+  blahblah(){
+    return new Observable(observer => {
+      console.log('blahblah');
+      observer.next(1);
+      observer.next(2);
+      observer.error(3);
+      observer.complete();
+      return {unsubscribe() {}};
+    });
+  }
+
+  promiseBlah(){
+    return new Promise((resolve,reject) => {
+      console.log('promiseBlah');
+
+      this.notifierService.notify({
+        format: {
+          notifObservable: true
+        },
+        options: {
+          notifObservable:{
+            observable: new Promise((resolve, reject) =>{
+              console.log('Not wow');
+              reject(5);
+            }),
+            errorMessage: ['Oh no! Better get that error checked out!'],
+            successMessage: ['Success! That\'s a relief.'],
+          }
+        }
+      });
+      //let variable =
+      /*
+      variable.catch(err => {
+        console.log('Errornn: ' + err);
+      });
+      */
+      reject(111);
+    });
+  }
+
+  startNotifOb(){
+    this.notifierService.notify({
+      format: {
+        notifObservable: true
+      },
+      options: {
+        notifObservable:{
+          observable: this.promiseBlah(),
+
+          //response: ['array of anything'],
+          //errorTitle: 'title of message to show client if an error occurs',
+          errorMessage: ['Oh no! Better get that error checked out!'],
+          //successTitle: 'title of ""',
+          successMessage: ['Success! That\'s a relief.'],
+          //hideSuccess: false,
+          //hideError: false,
+          //showErrorDialog: false, //default: show error snackbar
+          //showSuccessDialog: false //default: show success snackbar
+        }
+      }
+    });
+  }
+
+
+  printTest(){
+    console.log(this.dataHtml.options.dynamicHtml.output);
   }
 
   throwError(errorType: string): void {

@@ -1,0 +1,60 @@
+{
+  "error": "error stack",
+  "code": "response code",
+  "title": "title of client side message",
+  "messages": ["client side message","each element is a new line"],
+  "debug": "developer side message",
+  "format":{
+    "sendConsole": "true/false (default: true)",
+    "notifObservable": "true/false (default: false)",
+    "dynamicHtml": "true/false (default: false)",
+    "openSnackbar": "true/false (default: false)",
+    "openDialog": "true/false (default: false"
+  },
+  "options":{
+    "disableConsoleError": "true/false (default: false)",
+    "notifType": "error/success/warn (default: none)",
+    "notifObservable":{
+      "observable": "new Observable()",
+      "response": ["data returned from subscribing to the observable/promise"],
+      "errorTitle": "title of message to show client if an error occurs",
+      "errorMessage": "message to show client if an error occurs",
+      "successTitle": "title of message to show client if successful",
+      "successMessage": "message to show client if successful",
+      "hideSuccess": "true/false (default: false)",
+      "hideError": "true/false (default: false)",
+      "showErrorDialog": "true/false (default: false)",
+      "showSuccessDialog": "true/false (default: false)"
+    },
+    "dynamicHtml": {
+      "output": "text shown to the client (has to be implemented into html by developer)",
+      "observable": "new Observable()",
+      "response": ["data returned from subscribing to the observable/promise"],
+      "errorMessage": "message to show if an error occurs",
+      "successMessage": "message to show if successful"
+    },
+    "snackbar":{
+      "preset": "error/warn/success (default: none)",
+      "style": "1/2/3 (x close button/close button/duration only)",
+      "action": "text on the button (default: Dismiss)",
+      "duration": "duration snackbar shows (default: 8000ms)",
+      "color": "red/orange/green/blue/purple (default: use material default, gray)",
+      "horizontalPos": "center/right/left (default: center)",
+      "verticalPos": "top/bottom (default: bottom)"
+    },
+    "dialog": {
+      "style": "1",
+      "color": "red",
+      "action": "text on the button",
+      "disableClose": "true/false (default: false)",
+      "autoFocus": "true/false (default: true)",
+      "hasBackdrop": "true/false (default: true)",
+      "position": {
+        "bottom": null,
+        "top": null,
+        "right": null,
+        "left": null
+      }
+    }
+  }
+}
