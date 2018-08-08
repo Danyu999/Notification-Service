@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {NotifierService} from './NotifierService/notifier.service';
-import {ErrorsHandler} from './ErrorsHandler/errors-handler';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Observable, TimeoutError} from 'rxjs';
 import {async} from '@angular/core/testing';
@@ -111,14 +110,14 @@ export class AppComponent implements OnInit {
     }
   };
 
-  constructor(public notifierService: NotifierService, public errorsHandler: ErrorsHandler){}
+  constructor(public notifierService: NotifierService){}
 
   blahblah(){
     return new Observable(observer => {
       console.log('blahblah');
       observer.next(1);
       observer.next(2);
-      observer.error(3);
+      //observer.error(3);
       observer.complete();
       return {unsubscribe() {}};
     });
@@ -160,7 +159,7 @@ export class AppComponent implements OnInit {
       },
       options: {
         notifObservable:{
-          observable: this.promiseBlah(),
+          observable: this.blahblah(),
 
           //response: ['array of anything'],
           //errorTitle: 'title of message to show client if an error occurs',
@@ -204,7 +203,7 @@ export class AppComponent implements OnInit {
 
     }
     catch(err){
-      this.errorsHandler.handleError(err);
+
     }
   }
 

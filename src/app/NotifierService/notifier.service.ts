@@ -40,7 +40,7 @@ export class NotifierService {
         this.openDialog();
       }
       if (data.format.sendEmail) {
-        //send email
+        //send email (currently not implemented)
         this.sendEmail(data);
       }
     }
@@ -49,6 +49,8 @@ export class NotifierService {
     }
   }
 
+
+  //TESTING. (Used to simulate loading time for observables/promises)
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -64,10 +66,6 @@ export class NotifierService {
       if(code) console.error('Code: ' + code);
       if(debug) console.error('Debug: ' + debug);
     }
-  }
-
-  handleError(error: any){ //default when no settings are given
-    //handle error given. Always logs; decide whether to send notif to client or not
   }
 
   listenToObservable(data: any, observable: Observable<any>){
@@ -88,7 +86,7 @@ export class NotifierService {
     });
   }
 
-  async runNotifObservable(data: any){
+  /*async*/ runNotifObservable(data: any){
     if(data.options && data.options.notifObservable){
       let observable: Observable<any>;
       console.log('NotifierService: Attempting to listen to observable...');
@@ -103,7 +101,7 @@ export class NotifierService {
       }
       if(observable instanceof Observable){
         this.listenToObservable(data.options.notifObservable, observable);
-        await this.sleep(2000);
+        //await this.sleep(2000); //Used for testing
         console.log("notif: " + data.options.notifObservable.state);
         if (data.options.notifObservable.state === 'error' && !data.options.notifObservable.hideError) {
           if (!data.options.notifObservable.showErrorDialog) {
@@ -148,7 +146,7 @@ export class NotifierService {
     }
   }
 
-  async runHtml(data: any){
+  /*async*/ runHtml(data: any){
     if(data.options && data.options.dynamicHtml){
       let observable: Observable<any>;
       console.log('NotifierService: Attempting to listen to observable...');
@@ -164,7 +162,7 @@ export class NotifierService {
       if (observable instanceof Observable) {
         data.options.dynamicHtml.output = data.options.dynamicHtml.loadingMessage;
         this.listenToObservable(data.options.dynamicHtml, observable);
-        await this.sleep(2000);
+        //await this.sleep(2000); //Used for testing
         if (data.options.dynamicHtml.state === 'error') {
           data.options.dynamicHtml.output = data.options.dynamicHtml.errorMessage;
         }
@@ -296,11 +294,7 @@ export class NotifierService {
 
     if(data.options && data.options.dialog) {
       //title, messages, and action option
-      this.dialogConfig.data = {
-        title: data.title,
-        messages: data.messages,
-        action: data.options.dialog.action
-      };
+      this.setDialogData(data.title, data.messages, data.options.dialog.action);
       //disableClose option
       if (data.options.dialog.disableClose) {
         this.dialogConfig.disableClose = true;
@@ -325,7 +319,7 @@ export class NotifierService {
       //position option
       this.dialogConfig.position = data.options.dialog.position;
 
-      //style option
+      //style option (currently no change. Future: May implement different styles for dialog boxes)
       switch (data.options.dialog.style) {
         case 2: {
 
@@ -349,47 +343,16 @@ export class NotifierService {
     }
   }
 
-  sendEmail(data){
-
-  }
-
-  //DEPRECATED AFTER THIS POINT!!!!!!!!!!!!!!!
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-
-  openOldDialog(title: string, messages: Array<string>): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = {
-      bottom: null,
-      top: null,
-      right: null,
-      left: null
-    };
-    dialogConfig.data = {
+  //sets the dialogConfig data property
+  setDialogData(title: string, messages: Array<string>, action: string){
+    this.dialogConfig.data = {
       title: title,
       messages: messages,
-      action: 'Close'
+      action: action
     };
-    dialogConfig.panelClass = ['notifier-service-dialog'];
-
-    this.dialog.open(NotifDialogComponent, dialogConfig);
   }
 
-  openDurationSnackBar(message: string, duration: number, color?: string): void {
-    this.snackConfig.duration = duration;
-    if(color) this.setSnackBarColor(color);
-    this.snackBar.open(message, '', this.snackConfig);
-    this.snackConfig = new MatSnackBarConfig();
-  }
+  sendEmail(data){
 
-  openActionSnackBar(message: string, action: string, color?: string): void {
-    if(color) this.setSnackBarColor(color);
-    this.snackBar.open(message, action, this.snackConfig);
-    this.snackConfig = new MatSnackBarConfig();
   }
 }

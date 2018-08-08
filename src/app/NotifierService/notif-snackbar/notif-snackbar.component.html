@@ -38,8 +38,9 @@
 
 <!--action button version (notifType)-->
 <span class="snackbar-action-notif" *ngIf="notifType && style === 2">
-  <span class="column-0" *ngIf="notifType === 'success'">%%%</span>
-  <span class="column-0" *ngIf="notifType === 'warn'">$$$</span>
+  <!-- Attempt to add an image to the snackbar. Currently, formatting for this is really bad -->
+  <span class="column-0" *ngIf="notifType === 'success'">Place Image 1</span>
+  <span class="column-0" *ngIf="notifType === 'warn'">Place Image 2</span>
   <span class="column-0" *ngIf="notifType === 'error'">
     <img src="../assets/black-x.png" alt="Error" height=50 width=50/>
   </span>
@@ -60,8 +61,8 @@
 
 <!--duration version (notifType)-->
 <span class="snackbar-duration-notif" *ngIf="notifType && style === 3">
-  <span class="column-0" *ngIf="notifType === 'success'">%%%</span>
-  <span class="column-0" *ngIf="notifType === 'warn'">$$$</span>
+  <span class="column-0" *ngIf="notifType === 'success'">Place Image 1</span>
+  <span class="column-0" *ngIf="notifType === 'warn'">Place Image 2</span>
   <span class="column-0" *ngIf="notifType === 'error'">
     <img src="../assets/black-x.png" alt="Error" height=50 width=50/>
   </span>

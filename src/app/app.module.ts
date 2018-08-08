@@ -14,7 +14,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import {FormsModule} from '@angular/forms';
-import {ErrorsHandler} from './ErrorsHandler/errors-handler';
 import {NotifSnackbarComponent} from './NotifierService/notif-snackbar/notif-snackbar.component';
 import {NotifDialogComponent} from './NotifierService/notif-dialog/notif-dialog.component';
 
