@@ -180,33 +180,6 @@ export class AppComponent implements OnInit {
     console.log(this.dataHtml.options.dynamicHtml.output);
   }
 
-  throwError(errorType: string): void {
-    try {
-      switch(errorType.toLowerCase()){
-        case 'one': {
-          throw new TypeError('This is a type error');
-        }
-        case 'two': {
-          throw new ReferenceError('This is a reference error');
-        }
-        case 'three': {
-          throw new RangeError('This is a range error');
-        }
-        case 'four': {
-          throw new HttpErrorResponse({});
-        }
-        case 'five': {
-          throw new TimeoutError();
-        }
-      }
-      throw new Error('Invalid type of error');
-
-    }
-    catch(err){
-
-    }
-  }
-
   ngOnInit(){
   }
 }

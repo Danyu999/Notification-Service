@@ -13,7 +13,6 @@
 </script>
 
 <mat-card class="buttons">
-  <button mat-raised-button (click)="notifierService.openOldDialog(dialogTitle, dialogMsgs)">Dialog</button>
   <button mat-raised-button (click)="notifierService.notify(dataSnack)">
     NotifySnackbar
   </button>
@@ -28,24 +27,6 @@
   </button>
   <button mat-raised-button (click)="printTest()">
     PrintTest
-  </button>
-  <button mat-raised-button (click)="notifierService.openDurationSnackBar(messageSnack, snackDuration, 'green')">
-    GreenDurationSnack
-  </button>
-  <button mat-raised-button (click)="notifierService.openDurationSnackBar(messageSnack, snackDuration, 'orange')">
-    OrangeDurationSnack
-  </button>
-  <button mat-raised-button (click)="notifierService.openDurationSnackBar(messageSnack, snackDuration, 'red')">
-    RedDurationSnack
-  </button>
-  <button mat-raised-button (click)="notifierService.openActionSnackBar(messageSnack, actionSnack, 'blue')">
-    BlueActionSnack
-  </button>
-  <button mat-raised-button (click)="notifierService.openActionSnackBar(messageSnack, actionSnack, 'purple')">
-    PurpleActionSnack
-  </button>
-  <button mat-raised-button (click)="notifierService.openActionSnackBar(messageSnack, actionSnack, 'default')">
-    DefaultActionSnack
   </button>
 </mat-card>
 
